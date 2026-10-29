@@ -25,6 +25,7 @@ import {
   Mail,
   RefreshCw,
   X,
+  Menu,
 } from 'lucide-react';
 import {
   SOPORTETECH_INFO,
@@ -152,6 +153,9 @@ const FAQ_ITEMS = [
 ];
 
 export default function App() {
+  // Mobile Navigation Drawer state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   // Interactive state for Authorized Hardware Catalog Filter & Quote List (No Prices)
   const [catalogFilter, setCatalogFilter] = useState<CatalogFilter>('todos');
   const [searchQuery, setSearchQuery] = useState('');
@@ -519,14 +523,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-st-light-circuit text-[#031538]">
-      {/* Top Bar Contract: Strictly 3 zones separated by gap-8 */}
+    <div className="min-h-screen w-full overflow-x-hidden flex flex-col bg-st-light-circuit text-[#031538]">
+      {/* Top Bar Contract: Strictly 3 zones separated by gap-4 sm:gap-8 */}
       <header className="sticky top-0 z-40 bg-[#031538]/95 backdrop-blur border-b border-[#14377A] text-white">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-8 px-6 py-3.5">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 py-3">
           {/* Zone 1: Single text element wordmark styled with brand colors */}
           <a
             href="#inicio"
-            className="font-display text-xl font-bold tracking-tight text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#00A3E0]"
+            className="font-display text-lg sm:text-xl font-bold tracking-tight text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-[#00A3E0]"
           >
             SOPORTE<span className="text-[#00A3E0]">TECH</span>
           </a>
@@ -534,7 +538,7 @@ export default function App() {
           {/* Zone 2: 5 concise single-line text navigation links */}
           <nav
             aria-label="Navegación principal"
-            className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300"
+            className="hidden md:flex items-center gap-6 lg:gap-7 text-sm font-medium text-slate-300"
           >
             <a
               href="#demanda-local"
@@ -568,32 +572,70 @@ export default function App() {
             </a>
           </nav>
 
-          {/* Zone 3: 1 primary action in Phoenix Amber/Orange */}
-          <div className="flex items-center shrink-0">
+          {/* Zone 3: Primary action + Mobile Menu Toggle */}
+          <div className="flex items-center gap-2.5 shrink-0">
             <a
               href="#contacto"
-              className="px-4 py-2.5 text-xs font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap shrink-0"
+              className="px-3.5 sm:px-4 py-2.5 text-xs font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap shrink-0"
             >
               Solicitar Cotización
             </a>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-expanded={mobileMenuOpen}
+              aria-label="Abrir menú de secciones"
+              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[#0A265E] border border-[#1E4799] text-white hover:bg-[#10347D] transition-colors cursor-pointer"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+
+        {/* Collapsible Mobile Navigation Drawer (< md) */}
+        {mobileMenuOpen && (
+          <nav
+            aria-label="Menú móvil"
+            className="md:hidden bg-[#020E29] border-t border-[#14377A] px-4 py-3 space-y-1"
+          >
+            {[
+              { href: '#demanda-local', label: 'Soluciones para Tapachula y Soconusco' },
+              { href: '#servicios', label: '01–04. Divisiones y Servicios' },
+              { href: '#equipos', label: 'Catálogo de Equipos (+15,000 SKU)' },
+              { href: '#software', label: 'Desarrollo de Software a la Medida' },
+              { href: '#casos', label: 'Casos de Éxito Regionales' },
+              { href: '#cobertura', label: 'Cobertura en el Soconusco y FAQ' },
+              { href: '#contacto', label: 'Contacto Directo (962 707 4426)' },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-[#0A265E] hover:text-[#FFB800] transition-colors"
+              >
+                <span>{link.label}</span>
+                <ArrowRight className="w-4 h-4 text-[#00A3E0]" />
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
 
       <main id="inicio" className="flex-1">
         {/* 1. HERO SECTION: Deep Navy Circuit Architecture inspired by the Phoenix Logo */}
-        <section className="bg-st-navy-circuit text-white border-b border-[#14377A] pt-10 pb-14 lg:pt-16 lg:pb-20">
-          <div className="max-w-[1280px] mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
+        <section className="bg-st-navy-circuit text-white border-b border-[#14377A] pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               <div className="lg:col-span-6 flex flex-col justify-between">
                 <div>
                   {/* Unboxed regional metadata kicker (Zero-Pill Discipline) */}
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-[#00A3E0] mb-3 tracking-wide">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-[#00A3E0] mb-3 tracking-wide">
                     <span>SOLUCIONES TECNOLÓGICAS</span>
                     <span aria-hidden="true" className="text-[#FF7A00]">
                       ·
                     </span>
-                    <span>Tapachula y Región del Soconusco</span>
+                    <span>Tapachula y Soconusco</span>
                     <span aria-hidden="true" className="text-[#FF7A00]">
                       ·
                     </span>
@@ -603,9 +645,9 @@ export default function App() {
                   </div>
 
                   <h1
-                    className="font-display font-bold text-white tracking-tight leading-[1.12]"
+                    className="font-display font-bold text-white tracking-tight leading-[1.14]"
                     style={{
-                      fontSize: 'clamp(2.25rem, 3.8vw, 3.5rem)',
+                      fontSize: 'clamp(1.85rem, 3.8vw, 3.4rem)',
                       textWrap: 'balance',
                     }}
                   >
@@ -614,7 +656,7 @@ export default function App() {
 
                   <CircuitDivider variant="amber" />
 
-                  <p className="mt-4 text-base sm:text-lg text-slate-200 leading-relaxed max-w-[65ch]">
+                  <p className="mt-4 text-sm sm:text-base lg:text-lg text-slate-200 leading-relaxed max-w-[65ch]">
                     En <strong>SoporteTech</strong> resolvemos los retos tecnológicos de empresas,
                     comercios, clínicas y agroindustrias en <strong>Tapachula y la costa de Chiapas</strong>:
                     protegemos tus servidores contra apagones y ransomware, certificamos tus redes y
@@ -623,11 +665,11 @@ export default function App() {
                   </p>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-[#14377A]">
-                  <div className="flex flex-wrap items-center gap-4">
+                <div className="mt-7 sm:mt-8 pt-6 border-t border-[#14377A]">
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
                     <a
                       href="#contacto"
-                      className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-lg"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-lg"
                     >
                       <span>Solicitar Diagnóstico o Cotización</span>
                       <ArrowRight className="w-4 h-4" />
@@ -635,14 +677,14 @@ export default function App() {
 
                     <a
                       href={`tel:${SOPORTETECH_INFO.phoneRaw}`}
-                      className="inline-flex items-center gap-2 px-5 py-3.5 text-sm font-semibold text-white bg-[#0A265E] border border-[#1E4799] rounded-lg hover:bg-[#10347D] transition-colors whitespace-nowrap shrink-0 font-mono-tabular"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-3.5 text-sm font-semibold text-white bg-[#0A265E] border border-[#1E4799] rounded-lg hover:bg-[#10347D] transition-colors whitespace-nowrap shrink-0 font-mono-tabular"
                     >
                       <Phone className="w-4 h-4 text-[#00A3E0]" />
                       <span>Llamar al 962 707 4426</span>
                     </a>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                  <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-300">
                     <span>Proveedor Autorizado (+200 Marcas)</span>
                     <span aria-hidden="true" className="text-[#FF7A00]">
                       ·
@@ -662,8 +704,8 @@ export default function App() {
             </div>
 
             {/* Full-Width 4-Column Quantitative KPI Strip */}
-            <div className="mt-12 pt-10 border-t border-[#14377A] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-5">
+            <div className="mt-10 sm:mt-12 pt-8 sm:pt-10 border-t border-[#14377A] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-4 sm:p-5">
                 <div className="font-mono-tabular text-2xl sm:text-3xl font-bold text-[#FFB800]">
                   +15,000 SKU
                 </div>
@@ -675,7 +717,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-5">
+              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-4 sm:p-5">
                 <div className="font-mono-tabular text-2xl sm:text-3xl font-bold text-[#00A3E0]">
                   &lt; 2 Horas
                 </div>
@@ -687,7 +729,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-5">
+              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-4 sm:p-5">
                 <div className="font-mono-tabular text-2xl sm:text-3xl font-bold text-[#FFB800]">
                   99.94%
                 </div>
@@ -699,7 +741,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-5">
+              <div className="bg-[#051B47] border border-[#173D8A] rounded-xl p-4 sm:p-5">
                 <div className="font-mono-tabular text-2xl sm:text-3xl font-bold text-[#00A3E0]">
                   -62% Tiempos
                 </div>
@@ -717,11 +759,11 @@ export default function App() {
         {/* 2. LO QUE BUSCA LA GENTE EN TAPACHULA Y EL SOCONUSCO (#demanda-local) */}
         <section
           id="demanda-local"
-          className="py-16 lg:py-20 bg-st-light-circuit border-b border-slate-200"
+          className="py-12 sm:py-16 lg:py-20 bg-st-light-circuit border-b border-slate-200"
         >
-          <div className="max-w-[1280px] mx-auto px-6">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
             <div className="max-w-3xl">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#0047FF]">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#0047FF]">
                 <span>DIAGNÓSTICO REAL DE NUESTRA REGIÓN</span>
                 <span aria-hidden="true" className="text-[#FF7A00]">
                   ·
@@ -735,21 +777,21 @@ export default function App() {
                 ¿Qué necesitan resolver hoy los negocios y familias en nuestra localidad?
               </h2>
               <CircuitDivider variant="blue" />
-              <p className="mt-2 text-base text-slate-600 leading-relaxed">
+              <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
                 Diseñamos nuestros servicios alrededor de los problemas cotidianos que enfrentan
                 las empresas del Soconusco: desde el clima cálido-húmedo y las variaciones de
                 voltaje hasta la necesidad de controlar inventarios y conectar sucursales.
               </p>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
               {LOCAL_SEARCH_NEEDS.map((need, idx) => (
                 <article
                   key={need.id}
-                  className="bg-white border border-slate-200/90 hover:border-[#0047FF] transition-colors rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-xs"
+                  className="bg-white border border-slate-200/90 hover:border-[#0047FF] transition-colors rounded-2xl p-5 sm:p-7 flex flex-col justify-between shadow-xs"
                 >
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                       <span className="text-xs font-mono-tabular text-[#FF7A00] font-bold">
                         SOLUCIÓN REGIONAL 0{idx + 1}
                       </span>
@@ -757,7 +799,7 @@ export default function App() {
                         Tapachula · Soconusco
                       </span>
                     </div>
-                    <h3 className="font-display text-lg font-bold text-[#031538] mt-2">
+                    <h3 className="font-display text-base sm:text-lg font-bold text-[#031538] mt-2">
                       {need.searchIntent}
                     </h3>
 
@@ -780,7 +822,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => handleSelectServiceForQuote(need.targetActionService)}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0047FF] hover:text-[#FF7A00] transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0047FF] hover:text-[#FF7A00] transition-colors cursor-pointer whitespace-nowrap shrink-0 self-start sm:self-auto py-1"
                     >
                       <span>Resolver esto en mi negocio</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -793,10 +835,10 @@ export default function App() {
         </section>
 
         {/* 3. CORE CAPABILITIES / ASYMMETRIC BENTO GRID (#servicios) */}
-        <section id="servicios" className="py-16 lg:py-24 bg-white border-b border-slate-200">
-          <div className="max-w-[1280px] mx-auto px-6">
+        <section id="servicios" className="py-12 sm:py-16 lg:py-24 bg-white border-b border-slate-200">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
             <div className="max-w-3xl">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#0047FF]">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#0047FF]">
                 <span>INGENIERÍA Y SOLUCIONES TECNOLÓGICAS</span>
                 <span aria-hidden="true" className="text-[#FF7A00]">
                   ·
@@ -810,28 +852,28 @@ export default function App() {
                 Todo el respaldo tecnológico que tu empresa necesita con un solo aliado local
               </h2>
               <CircuitDivider variant="amber" />
-              <p className="mt-2 text-base text-slate-600 leading-relaxed">
+              <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
                 Integramos ciberseguridad, mantenimiento de redes, abastecimiento directo de
                 más de 15,000 equipos nuevos con garantía oficial y desarrollo de software propio.
               </p>
             </div>
 
-            <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
               {CORE_SERVICES.map((service) => (
                 <article
                   key={service.id}
-                  className={`${service.colSpan} bg-[#F4F7FB] border border-slate-200 hover:border-[#0047FF] transition-colors rounded-2xl p-6 sm:p-8 flex flex-col justify-between`}
+                  className={`${service.colSpan} bg-[#F4F7FB] border border-slate-200 hover:border-[#0047FF] transition-colors rounded-2xl p-5 sm:p-8 flex flex-col justify-between`}
                 >
                   <div>
                     <ServiceCategorySchematic category={service.category} />
 
-                    <h3 className="font-display text-xl sm:text-2xl font-bold text-[#031538] mt-6">
+                    <h3 className="font-display text-lg sm:text-2xl font-bold text-[#031538] mt-5 sm:mt-6">
                       {service.title}
                     </h3>
                     <p className="text-sm font-semibold text-[#0047FF] mt-1">
                       {service.subtitle}
                     </p>
-                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed">
                       {service.description}
                     </p>
 
@@ -839,7 +881,7 @@ export default function App() {
                       {service.deliverables.map((item, idx) => (
                         <li
                           key={idx}
-                          className="flex items-start gap-2.5 text-sm text-slate-700"
+                          className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700"
                         >
                           <Check className="w-4 h-4 text-[#FF7A00] shrink-0 mt-0.5" />
                           <span>{item}</span>
@@ -850,7 +892,7 @@ export default function App() {
 
                   <div className="mt-6 pt-5 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <div className="flex items-baseline gap-2">
+                      <div className="flex flex-wrap items-baseline gap-2">
                         <span className="font-mono-tabular text-lg font-bold text-[#031538]">
                           {service.metricValue}
                         </span>
@@ -866,7 +908,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => handleSelectServiceForQuote(service.title)}
-                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 sm:py-2.5 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                     >
                       <span>Solicitar Cotización</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -879,11 +921,14 @@ export default function App() {
         </section>
 
         {/* 4. CATÁLOGO MAYORISTA DE EQUIPOS Y BUSCADOR CON GOOGLE SEARCH (#equipos) */}
-        <section id="equipos" className="py-16 lg:py-24 bg-st-light-circuit border-b border-slate-200">
-          <div className="max-w-[1280px] mx-auto px-6">
+        <section
+          id="equipos"
+          className="py-12 sm:py-16 lg:py-24 bg-st-light-circuit border-b border-slate-200"
+        >
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div className="max-w-3xl">
-                <div className="flex flex-wrap items-center gap-2 text-xs font-bold text-[#0047FF]">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#0047FF]">
                   <span>PROVEEDOR AUTORIZADO DE CÓMPUTO Y OFICINA</span>
                   <span aria-hidden="true" className="text-[#FF7A00]">
                     ·
@@ -897,7 +942,7 @@ export default function App() {
                   Amplio Catálogo en Cómputo, Punto de Venta, Redes, Energía e Impresión
                 </h2>
                 <CircuitDivider variant="blue" />
-                <p className="mt-2 text-base text-slate-600 leading-relaxed">
+                <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
                   Surtimos desde una laptop o impresora de tickets hasta el equipamiento integral de
                   oficinas, colegios, clínicas y bodegas en el Soconusco.{' '}
                   <strong>Cotizamos de forma personalizada por proyecto o volumen</strong> con
@@ -906,37 +951,39 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Interactive Category Filter Buttons */}
-              <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-[#031538] rounded-xl self-start">
-                {(
-                  [
-                    { id: 'todos', label: 'Todas las Líneas' },
-                    { id: 'cómputo', label: 'Cómputo y Servidores' },
-                    { id: 'pos', label: 'Punto de Venta (POS)' },
-                    { id: 'energía', label: 'Energía y No-Breaks' },
-                    { id: 'redes', label: 'Redes y Antenas' },
-                    { id: 'impresión', label: 'Impresión' },
-                    { id: 'videovigilancia', label: 'Videovigilancia' },
-                  ] as { id: CatalogFilter; label: string }[]
-                ).map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setCatalogFilter(tab.id)}
-                    className={`px-3 py-2 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                      catalogFilter === tab.id
-                        ? 'bg-[#FFB800] text-[#031538] font-bold'
-                        : 'text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
+              {/* Interactive Category Filter Buttons (Horizontally scrollable on narrow mobile, wrapped on desktop) */}
+              <div className="w-full lg:w-auto overflow-x-auto no-scrollbar">
+                <div className="inline-flex lg:flex lg:flex-wrap items-center gap-1.5 p-1.5 bg-[#031538] rounded-xl min-w-max lg:min-w-0">
+                  {(
+                    [
+                      { id: 'todos', label: 'Todas las Líneas' },
+                      { id: 'cómputo', label: 'Cómputo y Servidores' },
+                      { id: 'pos', label: 'Punto de Venta (POS)' },
+                      { id: 'energía', label: 'Energía y No-Breaks' },
+                      { id: 'redes', label: 'Redes y Antenas' },
+                      { id: 'impresión', label: 'Impresión' },
+                      { id: 'videovigilancia', label: 'Videovigilancia' },
+                    ] as { id: CatalogFilter; label: string }[]
+                  ).map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setCatalogFilter(tab.id)}
+                      className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                        catalogFilter === tab.id
+                          ? 'bg-[#FFB800] text-[#031538] font-bold'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Real-Time Google Search Grounded Technical Advisor */}
-            <div className="mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div className="mt-6 sm:mt-8 bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-xs">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200">
                 <div>
                   <div className="text-xs font-bold text-[#0047FF]">
@@ -954,7 +1001,7 @@ export default function App() {
                         '¿Qué equipo Punto de Venta (impresora térmica, lector y cajón) recomiendas para una ferretería o farmacia en Tapachula?'
                       )
                     }
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-3 py-2 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
                   >
                     Ej. Kit Punto de Venta
                   </button>
@@ -965,7 +1012,7 @@ export default function App() {
                         '¿Qué No-Break o UPS APC / CyberPower necesito para proteger un servidor contable y 4 computadoras contra apagones en Tapachula?'
                       )
                     }
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-3 py-2 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
                   >
                     Ej. No-Break para Servidor
                   </button>
@@ -976,7 +1023,7 @@ export default function App() {
                         '¿Qué antenas Ubiquiti airMAX o MikroTik sirven para enviar internet a una finca o bodega a 12 km en el Soconusco?'
                       )
                     }
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-3 py-2 bg-slate-100 hover:bg-[#031538] hover:text-white text-slate-700 font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap"
                   >
                     Ej. Enlace a Finca / Bodega
                   </button>
@@ -998,13 +1045,13 @@ export default function App() {
                     onChange={(e) => setAdvisorQuery(e.target.value)}
                     placeholder="Pregunta por cualquier marca, número de parte, laptop, impresora Epson/Brother, UPS o red..."
                     aria-label="Consultar especificaciones de equipos y soluciones"
-                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                    className="w-full pl-10 pr-4 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={advisorLoading}
-                  className="px-5 py-2.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-3 sm:py-2.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   {advisorLoading
                     ? 'Consultando especificaciones...'
@@ -1019,8 +1066,8 @@ export default function App() {
               )}
 
               {advisorAnswer && (
-                <div className="mt-4 bg-[#F4F7FB] border border-slate-200 rounded-xl p-5">
-                  <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-slate-200">
+                <div className="mt-4 bg-[#F4F7FB] border border-slate-200 rounded-xl p-4 sm:p-5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-slate-200">
                     <span className="text-xs font-bold text-[#031538]">
                       Recomendación Técnica de SoporteTech (Cotización personalizada a medida)
                     </span>
@@ -1040,7 +1087,7 @@ export default function App() {
                         };
                         handleAddToQuote(customItem);
                       }}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-[#0047FF] hover:text-[#FF7A00] cursor-pointer whitespace-nowrap"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#0047FF] hover:text-[#FF7A00] cursor-pointer whitespace-nowrap self-start sm:self-auto"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Agregar esta consulta a mi solicitud</span>
@@ -1084,7 +1131,7 @@ export default function App() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filtrar líneas por marca (HP, Dell, Lenovo, APC, Ubiquiti, EC Line, Zebra, Hikvision)..."
                     aria-label="Filtrar catálogo de líneas de equipamiento"
-                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-[#0047FF] transition-colors"
+                    className="w-full pl-10 pr-4 py-3 sm:py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-[#0047FF] transition-colors"
                   />
                 </div>
 
@@ -1097,7 +1144,7 @@ export default function App() {
                         className="bg-white border border-slate-200 hover:border-[#0047FF] transition-colors rounded-2xl p-5 flex flex-col justify-between shadow-xs"
                       >
                         <div>
-                          <div className="flex items-center justify-between text-xs text-slate-500 font-mono-tabular">
+                          <div className="flex items-center justify-between gap-2 text-xs text-slate-500 font-mono-tabular">
                             <span className="text-[#FF7A00] font-semibold">{item.code}</span>
                             <span>{item.categoryLabel}</span>
                           </div>
@@ -1125,7 +1172,7 @@ export default function App() {
                           </div>
                         </div>
 
-                        <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between gap-3">
+                        <div className="mt-5 pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <span className="text-xs text-slate-500">
                             Garantía Oficial · CFDI 4.0
                           </span>
@@ -1133,7 +1180,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={() => handleAddToQuote(item)}
-                            className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                            className={`w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                               inList
                                 ? 'bg-[#FF7A00] text-white hover:bg-[#e06900]'
                                 : 'bg-[#031538] text-white hover:bg-[#0047FF]'
@@ -1154,7 +1201,7 @@ export default function App() {
               </div>
 
               {/* Right 4 Columns: Quote Request List (NO PRICES) */}
-              <aside className="lg:col-span-4 bg-st-navy-circuit text-white rounded-2xl p-6 border border-[#14377A] shadow-lg">
+              <aside className="lg:col-span-4 bg-st-navy-circuit text-white rounded-2xl p-5 sm:p-6 border border-[#14377A] shadow-lg">
                 <div className="flex items-center justify-between border-b border-[#163C85] pb-4">
                   <div>
                     <h3 className="font-display text-lg font-bold text-white">
@@ -1182,11 +1229,11 @@ export default function App() {
                       value={customModelInput}
                       onChange={(e) => setCustomModelInput(e.target.value)}
                       placeholder="Ej. 5 Impresoras Epson L3250..."
-                      className="flex-1 px-3 py-2 text-xs bg-[#020E29] border border-[#1E4799] rounded-lg text-white placeholder:text-slate-400 focus:outline-none focus:border-[#FFB800]"
+                      className="flex-1 min-w-0 px-3 py-2.5 text-xs bg-[#020E29] border border-[#1E4799] rounded-lg text-white placeholder:text-slate-400 focus:outline-none focus:border-[#FFB800]"
                     />
                     <button
                       type="submit"
-                      className="px-3 py-2 text-xs font-bold bg-[#0047FF] hover:bg-[#00A3E0] text-white rounded-lg cursor-pointer whitespace-nowrap"
+                      className="px-3.5 py-2.5 text-xs font-bold bg-[#0047FF] hover:bg-[#00A3E0] text-white rounded-lg cursor-pointer whitespace-nowrap shrink-0"
                     >
                       Agregar
                     </button>
@@ -1207,7 +1254,7 @@ export default function App() {
                     {quoteList.map((entry) => (
                       <div
                         key={entry.line.id}
-                        className="bg-[#020E29]/90 border border-[#163C85] rounded-xl p-3.5 flex flex-col gap-2"
+                        className="bg-[#020E29]/90 border border-[#163C85] rounded-xl p-3.5 flex flex-col gap-2.5"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <span className="text-xs font-semibold text-white leading-snug">
@@ -1219,9 +1266,9 @@ export default function App() {
                               handleUpdateQuantity(entry.line.id, -entry.quantity)
                             }
                             aria-label={`Quitar ${entry.line.name}`}
-                            className="text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                            className="p-1 text-slate-400 hover:text-red-400 transition-colors cursor-pointer shrink-0"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
 
@@ -1234,9 +1281,9 @@ export default function App() {
                               type="button"
                               onClick={() => handleUpdateQuantity(entry.line.id, -1)}
                               aria-label="Disminuir cantidad"
-                              className="w-6 h-6 rounded bg-[#0A265E] hover:bg-[#14377A] flex items-center justify-center text-white cursor-pointer"
+                              className="w-8 h-8 rounded-lg bg-[#0A265E] hover:bg-[#14377A] flex items-center justify-center text-white cursor-pointer"
                             >
-                              <Minus className="w-3 h-3" />
+                              <Minus className="w-3.5 h-3.5" />
                             </button>
                             <span className="font-mono-tabular text-xs font-bold w-8 text-center text-[#FFB800]">
                               {entry.quantity}
@@ -1245,9 +1292,9 @@ export default function App() {
                               type="button"
                               onClick={() => handleUpdateQuantity(entry.line.id, 1)}
                               aria-label="Aumentar cantidad"
-                              className="w-6 h-6 rounded bg-[#0A265E] hover:bg-[#14377A] flex items-center justify-center text-white cursor-pointer"
+                              className="w-8 h-8 rounded-lg bg-[#0A265E] hover:bg-[#14377A] flex items-center justify-center text-white cursor-pointer"
                             >
-                              <Plus className="w-3 h-3" />
+                              <Plus className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </div>
@@ -1287,7 +1334,7 @@ export default function App() {
                     href={buildWhatsAppHref()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-[#0A265E] border border-[#1E4799] hover:bg-[#10347D] rounded-lg transition-colors whitespace-nowrap font-mono-tabular"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-xs font-semibold text-white bg-[#0A265E] border border-[#1E4799] hover:bg-[#10347D] rounded-lg transition-colors whitespace-nowrap font-mono-tabular"
                   >
                     <Phone className="w-3.5 h-3.5 text-[#00A3E0]" />
                     <span>Cotizar por WhatsApp 962 707 4426</span>
@@ -1299,11 +1346,11 @@ export default function App() {
         </section>
 
         {/* 5. CUSTOM SOFTWARE DEVELOPMENT & EFFICIENCY SIMULATOR (#software) */}
-        <section id="software" className="py-16 lg:py-24 bg-white border-b border-slate-200">
-          <div className="max-w-[1280px] mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <section id="software" className="py-12 sm:py-16 lg:py-24 bg-white border-b border-slate-200">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
               <div className="lg:col-span-5">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#0047FF]">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#0047FF]">
                   <span>INGENIERÍA DE SOFTWARE EN TAPACHULA</span>
                   <span aria-hidden="true" className="text-[#FF7A00]">
                     ·
@@ -1317,7 +1364,7 @@ export default function App() {
                   Desarrollo de Software Personalizado para la Eficiencia de tu Negocio
                 </h2>
                 <CircuitDivider variant="amber" />
-                <p className="mt-3 text-base text-slate-600 leading-relaxed">
+                <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
                   Contamos con un equipo propio de desarrollo de software en el Soconusco para
                   automatizar inventarios, puntos de venta multi-sucursal, recepción de cosechas en
                   báscula y logística aduanal.
@@ -1328,7 +1375,7 @@ export default function App() {
                     <h3 className="font-display text-base font-bold text-[#031538]">
                       01. Adaptado Exactamente a tu Operación
                     </h3>
-                    <p className="text-sm text-slate-600 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1">
                       Olvídate de adaptarte a programas rígidos. Programamos las reglas de negocio,
                       formatos de tickets, reportes y permisos que tu empresa realmente utiliza.
                     </p>
@@ -1338,7 +1385,7 @@ export default function App() {
                     <h3 className="font-display text-base font-bold text-[#031538]">
                       02. Conectado con tu Equipamiento y Periféricos
                     </h3>
-                    <p className="text-sm text-slate-600 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1">
                       Integramos tu software con lectores de código de barras, impresoras térmicas,
                       básculas digitales, relojes checadores biométricos y facturación CFDI 4.0.
                     </p>
@@ -1348,7 +1395,7 @@ export default function App() {
                     <h3 className="font-display text-base font-bold text-[#031538]">
                       03. Atención y Capacitación Presencial en Tapachula
                     </h3>
-                    <p className="text-sm text-slate-600 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1">
                       Acompañamos a tu personal en sitio durante la puesta en marcha, con soporte
                       directo en tu mismo horario y región.
                     </p>
@@ -1356,8 +1403,8 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="lg:col-span-7 bg-[#F4F7FB] border border-slate-200 rounded-2xl p-6 sm:p-8">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="lg:col-span-7 bg-[#F4F7FB] border border-slate-200 rounded-2xl p-5 sm:p-8">
+                <div className="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
                   <div>
                     <span className="text-xs font-bold text-[#0047FF]">
                       Calculadora de Eficiencia Operativa
@@ -1392,11 +1439,11 @@ export default function App() {
                 </div>
 
                 <div className="mt-6">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#031538] mb-2">
+                  <div className="flex items-center justify-between gap-2 text-xs font-bold text-[#031538] mb-2">
                     <label htmlFor="staff-slider">
                       2. Colaboradores que capturan ventas, inventario o administración:
                     </label>
-                    <span className="font-mono-tabular text-sm font-bold text-[#0047FF]">
+                    <span className="font-mono-tabular text-sm font-bold text-[#0047FF] shrink-0">
                       {staffCount} personas
                     </span>
                   </div>
@@ -1407,7 +1454,7 @@ export default function App() {
                     max={50}
                     value={staffCount}
                     onChange={(e) => setStaffCount(Number(e.target.value))}
-                    className="w-full accent-[#0047FF] cursor-pointer"
+                    className="w-full h-2 accent-[#0047FF] cursor-pointer"
                   />
                   <div className="flex justify-between text-[11px] text-slate-500 font-mono-tabular mt-1">
                     <span>2 personas</span>
@@ -1416,7 +1463,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-6 bg-white border border-slate-200 rounded-xl p-5">
+                <div className="mt-6 bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
                   <div className="text-xs text-slate-500">
                     Problema operativo que resolvemos en este giro:
                   </div>
@@ -1458,7 +1505,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <span className="text-xs text-slate-500">
                     Levantamiento de requerimientos sin costo en Tapachula.
                   </span>
@@ -1469,7 +1516,7 @@ export default function App() {
                         `04. Desarrollo de Software Personalizado (${selectedIndustry.label})`
                       )
                     }
-                    className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                   >
                     <span>Solicitar Propuesta de Software</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -1481,10 +1528,13 @@ export default function App() {
         </section>
 
         {/* 6. PROOF OF IMPACT / REGIONAL CASE STUDIES (#casos) */}
-        <section id="casos" className="py-16 lg:py-24 bg-st-navy-circuit text-white border-b border-[#14377A]">
-          <div className="max-w-[1280px] mx-auto px-6">
+        <section
+          id="casos"
+          className="py-12 sm:py-16 lg:py-24 bg-st-navy-circuit text-white border-b border-[#14377A]"
+        >
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
             <div className="max-w-3xl">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#00A3E0]">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#00A3E0]">
                 <span>RESULTADOS REALES EN EL SOCONUSCO</span>
                 <span aria-hidden="true" className="text-[#FF7A00]">
                   ·
@@ -1500,11 +1550,11 @@ export default function App() {
               <CircuitDivider variant="amber" />
             </div>
 
-            <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
               {REGIONAL_CASE_STUDIES.map((study) => (
                 <article
                   key={study.id}
-                  className="bg-[#051B47] border border-[#173D8A] rounded-2xl p-6 flex flex-col justify-between"
+                  className="bg-[#051B47] border border-[#173D8A] rounded-2xl p-5 sm:p-6 flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-300">
@@ -1560,12 +1610,12 @@ export default function App() {
         </section>
 
         {/* 7. REGIONAL COVERAGE & FAQ (#cobertura) */}
-        <section id="cobertura" className="py-16 lg:py-24 bg-white border-b border-slate-200">
-          <div className="max-w-[1280px] mx-auto px-6">
+        <section id="cobertura" className="py-12 sm:py-16 lg:py-24 bg-white border-b border-slate-200">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-7">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#0047FF]">
-                  <MapPin className="w-3.5 h-3.5 text-[#FF7A00]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#FF7A00] shrink-0" />
                   <span>COBERTURA REGIONAL EN LA COSTA DE CHIAPAS</span>
                 </div>
                 <h2
@@ -1579,7 +1629,29 @@ export default function App() {
                   cómputo y punto de venta, pólizas de mantenimiento y levantamiento de software.
                 </p>
 
-                <div className="mt-6 bg-[#F4F7FB] border border-slate-200 rounded-2xl overflow-hidden">
+                {/* Mobile Stacked Cards (< sm) for 100% Responsive Readability */}
+                <div className="mt-6 space-y-3 sm:hidden">
+                  {SOCONUSCO_COVERAGE.map((zone) => (
+                    <div
+                      key={zone.name}
+                      className="bg-[#F4F7FB] border border-slate-200 rounded-xl p-4 space-y-1.5"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-bold text-sm text-[#031538]">{zone.name}</div>
+                        <span className="font-mono-tabular text-[11px] text-slate-500 shrink-0">
+                          {zone.postalCodes}
+                        </span>
+                      </div>
+                      <div className="text-xs font-semibold text-[#0047FF]">
+                        {zone.onSiteSla} · {zone.distanceFromTapachula}
+                      </div>
+                      <p className="text-xs text-slate-600">{zone.keySectors}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tablet & Desktop Table (sm+) */}
+                <div className="hidden sm:block mt-6 bg-[#F4F7FB] border border-slate-200 rounded-2xl overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
@@ -1660,9 +1732,9 @@ export default function App() {
         </section>
 
         {/* 8. PUBLIC CLIENT CONTACT & QUOTE REQUEST SECTION (#contacto) */}
-        <section id="contacto" className="py-16 lg:py-24 bg-st-light-circuit">
-          <div className="max-w-[1280px] mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <section id="contacto" className="py-12 sm:py-16 lg:py-24 bg-st-light-circuit">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               {/* Left 5 Columns: Official Brand Card + Direct Contact Information */}
               <div className="lg:col-span-5">
                 <div className="text-xs font-bold text-[#0047FF]">
@@ -1675,20 +1747,20 @@ export default function App() {
                   Solicita tu Cotización o Diagnóstico Técnico Empresarial
                 </h2>
                 <CircuitDivider variant="amber" />
-                <p className="mt-2 text-base text-slate-600 leading-relaxed">
+                <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
                   Déjanos tus datos y el requerimiento de tu negocio. Nuestro equipo de ingeniería
                   en Tapachula te atenderá el mismo día.
                 </p>
 
                 {/* Brand Identity Card with Uploaded Logo */}
-                <div className="mt-6 bg-white border border-slate-200 rounded-2xl p-5 flex items-center gap-4 shadow-xs">
+                <div className="mt-6 bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs">
                   <img
                     src={SOPORTETECH_INFO.logoUrl}
                     alt="SoporteTech Soluciones Tecnológicas"
                     referrerPolicy="no-referrer"
                     className="w-16 h-16 object-contain shrink-0"
                   />
-                  <div>
+                  <div className="min-w-0">
                     <div className="font-display text-base font-bold text-[#031538]">
                       SOPORTE<span className="text-[#0047FF]">TECH</span>
                     </div>
@@ -1708,7 +1780,7 @@ export default function App() {
                       <div className="text-xs font-medium text-slate-500">
                         Teléfono y WhatsApp Directo
                       </div>
-                      <div className="flex items-center gap-3 mt-0.5">
+                      <div className="flex flex-wrap items-center gap-3 mt-0.5">
                         <a
                           href={`tel:${SOPORTETECH_INFO.phoneRaw}`}
                           className="font-mono-tabular text-xl font-bold text-[#031538] hover:text-[#0047FF] transition-colors"
@@ -1718,7 +1790,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={handleCopyPhone}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-md cursor-pointer"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-md cursor-pointer"
                         >
                           {copiedPhone ? (
                             <>
@@ -1774,7 +1846,7 @@ export default function App() {
               </div>
 
               {/* Right 7 Columns: Validated Lead Capture Form */}
-              <div className="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+              <div className="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-5 sm:p-8 shadow-sm">
                 {submittedLead ? (
                   <div className="py-4">
                     <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-4">
@@ -1813,12 +1885,12 @@ export default function App() {
                       )}
                     </div>
 
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                    <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
                       <a
                         href={buildWhatsAppHref(submittedLead)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3.5 sm:py-3 text-xs font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white rounded-lg transition-colors whitespace-nowrap"
                       >
                         <Phone className="w-4 h-4" />
                         <span>Confirmar por WhatsApp al 962 707 4426</span>
@@ -1826,7 +1898,7 @@ export default function App() {
 
                       <a
                         href={buildMailtoHref(submittedLead)}
-                        className="inline-flex items-center gap-2 px-4 py-3 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors whitespace-nowrap"
+                        className="inline-flex items-center justify-center gap-2 px-4 py-3.5 sm:py-3 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors whitespace-nowrap"
                       >
                         <Mail className="w-4 h-4 text-[#0047FF]" />
                         <span>Enviar copia por Correo</span>
@@ -1877,7 +1949,7 @@ export default function App() {
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
                           placeholder="Ej. Ing. Carlos Morales"
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         />
                       </div>
 
@@ -1894,7 +1966,7 @@ export default function App() {
                           value={companyName}
                           onChange={(e) => setCompanyName(e.target.value)}
                           placeholder="Ej. Ferretería / Comercializadora / Clínica"
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         />
                       </div>
                     </div>
@@ -1914,7 +1986,7 @@ export default function App() {
                           value={contactPhone}
                           onChange={(e) => setContactPhone(e.target.value)}
                           placeholder="Ej. 962 123 4567"
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white font-mono-tabular"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white font-mono-tabular"
                         />
                       </div>
 
@@ -1931,7 +2003,7 @@ export default function App() {
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           placeholder="correo@empresa.com"
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         />
                       </div>
 
@@ -1946,7 +2018,7 @@ export default function App() {
                           id="contact-municipality"
                           value={municipality}
                           onChange={(e) => setMunicipality(e.target.value)}
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         >
                           <option value="Tapachula">Tapachula</option>
                           <option value="Puerto Chiapas">Puerto Chiapas</option>
@@ -1977,7 +2049,7 @@ export default function App() {
                           id="service-interest"
                           value={selectedServiceInterest}
                           onChange={(e) => setSelectedServiceInterest(e.target.value)}
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         >
                           <option value="03. Proveedor Autorizado de Equipo de Cómputo, POS y Energía">
                             Cotización de Equipos (Cómputo, Punto de Venta POS, UPS, Impresión)
@@ -2012,7 +2084,7 @@ export default function App() {
                               e.target.value as 'whatsapp' | 'llamada' | 'correo'
                             )
                           }
-                          className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
+                          className="w-full px-3.5 py-3 sm:py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF] focus:bg-white"
                         >
                           <option value="whatsapp">Por WhatsApp</option>
                           <option value="llamada">Por Llamada Telefónica</option>
@@ -2051,11 +2123,11 @@ export default function App() {
                       />
                     </div>
 
-                    <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                       <button
                         type="submit"
                         disabled={submittingLead}
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap cursor-pointer shadow-sm"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold text-[#031538] bg-[#FFB800] hover:bg-[#FF7A00] hover:text-white disabled:opacity-60 rounded-lg transition-colors whitespace-nowrap cursor-pointer shadow-sm"
                       >
                         <span>
                           {submittingLead
@@ -2069,7 +2141,7 @@ export default function App() {
                         href={buildWhatsAppHref()}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 px-4 py-3 text-xs font-bold text-[#031538] bg-slate-100 border border-slate-300 hover:bg-slate-200 rounded-lg transition-colors whitespace-nowrap font-mono-tabular"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3.5 sm:py-3 text-xs font-bold text-[#031538] bg-slate-100 border border-slate-300 hover:bg-slate-200 rounded-lg transition-colors whitespace-nowrap font-mono-tabular"
                       >
                         <Phone className="w-3.5 h-3.5 text-[#0047FF]" />
                         <span>Directo a WhatsApp: 962 707 4426</span>
@@ -2083,19 +2155,22 @@ export default function App() {
         </section>
       </main>
 
-      {/* PRIVATE OWNER MODAL (Protected by PIN so public visitors CANNOT see leads) */}
+      {/* PRIVATE OWNER MODAL (Protected by PIN so public visitors CANNOT see leads, 100% responsive on mobile & desktop) */}
       {showAdminModal && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="admin-modal-title"
-          className="fixed inset-0 z-50 bg-[#031538]/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-[#031538]/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
         >
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200">
-              <div className="flex items-center gap-2.5">
-                <Lock className="w-5 h-5 text-[#0047FF]" />
-                <h2 id="admin-modal-title" className="font-display text-lg font-bold text-[#031538]">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full p-4 sm:p-8 shadow-2xl my-auto max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 shrink-0">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Lock className="w-5 h-5 text-[#0047FF] shrink-0" />
+                <h2
+                  id="admin-modal-title"
+                  className="font-display text-base sm:text-lg font-bold text-[#031538] truncate"
+                >
                   Acceso Privado · Administración SoporteTech
                 </h2>
               </div>
@@ -2103,7 +2178,7 @@ export default function App() {
                 type="button"
                 onClick={() => setShowAdminModal(false)}
                 aria-label="Cerrar ventana de administración"
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer"
+                className="p-2 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -2115,7 +2190,7 @@ export default function App() {
                   e.preventDefault();
                   fetchProtectedLeads();
                 }}
-                className="mt-6 max-w-md mx-auto py-4"
+                className="mt-5 max-w-md mx-auto w-full py-2"
               >
                 <p className="text-xs text-slate-600 leading-relaxed">
                   Esta bandeja está protegida con clave para que tus visitantes públicos no puedan
@@ -2134,32 +2209,32 @@ export default function App() {
                     value={adminPinInput}
                     onChange={(e) => setAdminPinInput(e.target.value)}
                     placeholder="Ingresa tu clave..."
-                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF]"
+                    className="w-full px-3.5 py-3 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-[#0047FF]"
                   />
                 </div>
                 {adminAuthError && (
                   <p className="mt-2 text-xs font-medium text-red-700">{adminAuthError}</p>
                 )}
-                <div className="mt-5 flex items-center justify-end gap-3">
+                <div className="mt-5 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5">
                   <button
                     type="button"
                     onClick={() => setShowAdminModal(false)}
-                    className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 cursor-pointer"
+                    className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 cursor-pointer"
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
                     disabled={loadingLeads}
-                    className="px-5 py-2.5 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] rounded-lg cursor-pointer"
+                    className="px-5 py-3 sm:py-2.5 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] rounded-lg cursor-pointer"
                   >
                     {loadingLeads ? 'Verificando...' : 'Desbloquear Bandeja'}
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="mt-5">
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+              <div className="mt-4 flex-1 overflow-y-auto min-h-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
                   <div>
                     <span className="text-xs font-mono-tabular font-bold text-[#0047FF]">
                       SOLICITUDES REGISTRADAS ({leads.length})
@@ -2169,7 +2244,7 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => fetchProtectedLeads()}
@@ -2185,10 +2260,10 @@ export default function App() {
                       type="button"
                       onClick={handleExportLeadsCsv}
                       disabled={leads.length === 0}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] disabled:opacity-50 rounded-lg cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-[#031538] hover:bg-[#0047FF] disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       <Download className="w-3.5 h-3.5" />
-                      <span>Descargar Excel (CSV)</span>
+                      <span>Descargar CSV</span>
                     </button>
                   </div>
                 </div>
@@ -2198,110 +2273,192 @@ export default function App() {
                     Aún no hay solicitudes registradas en la bandeja.
                   </div>
                 ) : (
-                  <div className="mt-4 overflow-x-auto max-h-[420px]">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-600">
-                          <th className="py-3 px-3">Folio / Fecha</th>
-                          <th className="py-3 px-3">Cliente / Empresa</th>
-                          <th className="py-3 px-3">Teléfono / Municipio</th>
-                          <th className="py-3 px-3">Servicio y Equipos</th>
-                          <th className="py-3 px-3">Estatus</th>
-                          <th className="py-3 px-3">Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200 text-xs">
-                        {leads.map((lead) => {
-                          const cleanClientPhone = lead.contactPhone.replace(/\D/g, '');
-                          const replyWhatsAppUrl = `https://wa.me/52${cleanClientPhone}?text=${encodeURIComponent(
-                            `Hola ${lead.contactName}, te saluda el equipo de SoporteTech Tapachula respecto a tu solicitud (${lead.id}) de ${lead.serviceInterest}.`
-                          )}`;
-                          return (
-                            <tr key={lead.id} className="hover:bg-slate-50">
-                              <td className="py-3 px-3 font-mono-tabular whitespace-nowrap">
-                                <div className="font-bold text-[#031538]">{lead.id}</div>
-                                <div className="text-[11px] text-slate-500">
-                                  {new Date(lead.createdAt).toLocaleString('es-MX', {
-                                    dateStyle: 'short',
-                                    timeStyle: 'short',
-                                  })}
-                                </div>
-                              </td>
-                              <td className="py-3 px-3">
-                                <div className="font-bold text-[#031538]">
-                                  {lead.contactName}
-                                </div>
-                                <div className="text-slate-500">{lead.companyName}</div>
-                              </td>
-                              <td className="py-3 px-3 whitespace-nowrap">
+                  <>
+                    {/* Mobile Cards View (< md) inside Admin Modal */}
+                    <div className="mt-4 space-y-3 md:hidden">
+                      {leads.map((lead) => {
+                        const cleanClientPhone = lead.contactPhone.replace(/\D/g, '');
+                        const replyWhatsAppUrl = `https://wa.me/52${cleanClientPhone}?text=${encodeURIComponent(
+                          `Hola ${lead.contactName}, te saluda el equipo de SoporteTech Tapachula respecto a tu solicitud (${lead.id}) de ${lead.serviceInterest}.`
+                        )}`;
+                        return (
+                          <div
+                            key={lead.id}
+                            className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2.5 text-xs"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-mono-tabular font-bold text-[#031538]">
+                                {lead.id}
+                              </span>
+                              <span className="text-[11px] text-slate-500 font-mono-tabular">
+                                {new Date(lead.createdAt).toLocaleString('es-MX', {
+                                  dateStyle: 'short',
+                                  timeStyle: 'short',
+                                })}
+                              </span>
+                            </div>
+                            <div>
+                              <div className="font-bold text-sm text-[#031538]">
+                                {lead.contactName}
+                              </div>
+                              <div className="text-slate-600">
+                                {lead.companyName} · {lead.municipality}
+                              </div>
+                            </div>
+                            <div className="font-medium text-[#0047FF]">
+                              {lead.serviceInterest}
+                            </div>
+                            {lead.selectedEquipment.length > 0 && (
+                              <div className="text-slate-600">
+                                <strong>Equipos:</strong> {lead.selectedEquipment.join(', ')}
+                              </div>
+                            )}
+                            <div className="pt-2 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                              <select
+                                value={lead.status}
+                                onChange={(e) =>
+                                  handleUpdateLeadStatus(
+                                    lead.id,
+                                    e.target.value as 'Nuevo' | 'Contactado' | 'Cotizado'
+                                  )
+                                }
+                                aria-label={`Estatus de ${lead.contactName}`}
+                                className="px-2.5 py-1.5 text-xs font-semibold rounded border border-slate-300 bg-white text-[#031538]"
+                              >
+                                <option value="Nuevo">Nuevo</option>
+                                <option value="Contactado">Contactado</option>
+                                <option value="Cotizado">Cotizado</option>
+                              </select>
+                              <div className="flex items-center gap-2">
                                 <a
-                                  href={`tel:${cleanClientPhone}`}
-                                  className="font-mono-tabular font-bold text-[#0047FF] hover:underline"
+                                  href={replyWhatsAppUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3 py-1.5 text-xs font-bold text-white bg-[#0047FF] rounded"
                                 >
-                                  {lead.contactPhone}
+                                  WhatsApp
                                 </a>
-                                <div className="text-[11px] text-slate-500">
-                                  {lead.municipality} · {lead.preferredChannel}
-                                </div>
-                              </td>
-                              <td className="py-3 px-3 max-w-xs">
-                                <div className="font-medium text-[#031538]">
-                                  {lead.serviceInterest}
-                                </div>
-                                {lead.selectedEquipment.length > 0 && (
-                                  <div className="text-[11px] text-slate-600 mt-0.5">
-                                    Equipos: {lead.selectedEquipment.join(', ')}
-                                  </div>
-                                )}
-                                {lead.projectNotes && (
-                                  <div className="text-[11px] text-slate-500 italic mt-0.5">
-                                    "{lead.projectNotes}"
-                                  </div>
-                                )}
-                              </td>
-                              <td className="py-3 px-3">
-                                <select
-                                  value={lead.status}
-                                  onChange={(e) =>
-                                    handleUpdateLeadStatus(
-                                      lead.id,
-                                      e.target.value as 'Nuevo' | 'Contactado' | 'Cotizado'
-                                    )
-                                  }
-                                  aria-label={`Estatus de ${lead.contactName}`}
-                                  className="px-2 py-1 text-xs font-semibold rounded border border-slate-300 bg-white text-[#031538]"
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteLead(lead.id)}
+                                  aria-label={`Eliminar prospecto ${lead.id}`}
+                                  className="p-1.5 text-slate-400 hover:text-red-600"
                                 >
-                                  <option value="Nuevo">Nuevo</option>
-                                  <option value="Contactado">Contactado</option>
-                                  <option value="Cotizado">Cotizado</option>
-                                </select>
-                              </td>
-                              <td className="py-3 px-3 whitespace-nowrap">
-                                <div className="flex items-center gap-2">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Desktop Table View (md+) */}
+                    <div className="hidden md:block mt-4 overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-600">
+                            <th className="py-3 px-3">Folio / Fecha</th>
+                            <th className="py-3 px-3">Cliente / Empresa</th>
+                            <th className="py-3 px-3">Teléfono / Municipio</th>
+                            <th className="py-3 px-3">Servicio y Equipos</th>
+                            <th className="py-3 px-3">Estatus</th>
+                            <th className="py-3 px-3">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 text-xs">
+                          {leads.map((lead) => {
+                            const cleanClientPhone = lead.contactPhone.replace(/\D/g, '');
+                            const replyWhatsAppUrl = `https://wa.me/52${cleanClientPhone}?text=${encodeURIComponent(
+                              `Hola ${lead.contactName}, te saluda el equipo de SoporteTech Tapachula respecto a tu solicitud (${lead.id}) de ${lead.serviceInterest}.`
+                            )}`;
+                            return (
+                              <tr key={lead.id} className="hover:bg-slate-50">
+                                <td className="py-3 px-3 font-mono-tabular whitespace-nowrap">
+                                  <div className="font-bold text-[#031538]">{lead.id}</div>
+                                  <div className="text-[11px] text-slate-500">
+                                    {new Date(lead.createdAt).toLocaleString('es-MX', {
+                                      dateStyle: 'short',
+                                      timeStyle: 'short',
+                                    })}
+                                  </div>
+                                </td>
+                                <td className="py-3 px-3">
+                                  <div className="font-bold text-[#031538]">
+                                    {lead.contactName}
+                                  </div>
+                                  <div className="text-slate-500">{lead.companyName}</div>
+                                </td>
+                                <td className="py-3 px-3 whitespace-nowrap">
                                   <a
-                                    href={replyWhatsAppUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-2.5 py-1.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] rounded"
+                                    href={`tel:${cleanClientPhone}`}
+                                    className="font-mono-tabular font-bold text-[#0047FF] hover:underline"
                                   >
-                                    WhatsApp
+                                    {lead.contactPhone}
                                   </a>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleDeleteLead(lead.id)}
-                                    aria-label={`Eliminar prospecto ${lead.id}`}
-                                    className="p-1.5 text-slate-400 hover:text-red-600 cursor-pointer"
+                                  <div className="text-[11px] text-slate-500">
+                                    {lead.municipality} · {lead.preferredChannel}
+                                  </div>
+                                </td>
+                                <td className="py-3 px-3 max-w-xs">
+                                  <div className="font-medium text-[#031538]">
+                                    {lead.serviceInterest}
+                                  </div>
+                                  {lead.selectedEquipment.length > 0 && (
+                                    <div className="text-[11px] text-slate-600 mt-0.5">
+                                      Equipos: {lead.selectedEquipment.join(', ')}
+                                    </div>
+                                  )}
+                                  {lead.projectNotes && (
+                                    <div className="text-[11px] text-slate-500 italic mt-0.5">
+                                      "{lead.projectNotes}"
+                                    </div>
+                                  )}
+                                </td>
+                                <td className="py-3 px-3">
+                                  <select
+                                    value={lead.status}
+                                    onChange={(e) =>
+                                      handleUpdateLeadStatus(
+                                        lead.id,
+                                        e.target.value as 'Nuevo' | 'Contactado' | 'Cotizado'
+                                      )
+                                    }
+                                    aria-label={`Estatus de ${lead.contactName}`}
+                                    className="px-2 py-1 text-xs font-semibold rounded border border-slate-300 bg-white text-[#031538]"
                                   >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
+                                    <option value="Nuevo">Nuevo</option>
+                                    <option value="Contactado">Contactado</option>
+                                    <option value="Cotizado">Cotizado</option>
+                                  </select>
+                                </td>
+                                <td className="py-3 px-3 whitespace-nowrap">
+                                  <div className="flex items-center gap-2">
+                                    <a
+                                      href={replyWhatsAppUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="px-2.5 py-1.5 text-xs font-bold text-white bg-[#0047FF] hover:bg-[#031538] rounded"
+                                    >
+                                      WhatsApp
+                                    </a>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteLead(lead.id)}
+                                      aria-label={`Eliminar prospecto ${lead.id}`}
+                                      className="p-1.5 text-slate-400 hover:text-red-600 cursor-pointer"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
                 )}
               </div>
             )}
@@ -2310,8 +2467,8 @@ export default function App() {
       )}
 
       {/* 9. QUIET FOOTER */}
-      <footer className="bg-[#031538] text-slate-400 border-t border-[#14377A] py-12">
-        <div className="max-w-[1280px] mx-auto px-6">
+      <footer className="bg-[#031538] text-slate-400 border-t border-[#14377A] py-10 sm:py-12">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-[#14377A]">
             <div className="md:col-span-5">
               <div className="font-display text-lg font-bold text-white">
@@ -2379,7 +2536,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
             <div>
               © {new Date().getFullYear()} SoporteTech Soluciones Tecnológicas. Todos los derechos
               reservados.
@@ -2390,7 +2547,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setShowAdminModal(true)}
-                className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors cursor-pointer py-1"
               >
                 <Lock className="w-3 h-3" />
                 <span>Acceso Propietario</span>

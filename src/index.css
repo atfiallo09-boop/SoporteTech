@@ -16,10 +16,13 @@
     --st-phoenix-red: #E62419;
   }
 
+  html,
   body {
     font-family: var(--font-sans);
     color: #031538;
     background-color: #F4F7FB;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
   }
 
   h1, h2, h3, h4, .font-display {
@@ -48,6 +51,15 @@
   background-image:
     radial-gradient(circle at 90% 10%, rgba(0, 71, 255, 0.06) 0%, transparent 40%),
     radial-gradient(circle at 10% 90%, rgba(255, 122, 0, 0.05) 0%, transparent 40%);
+}
+
+/* Utilidad para barras de filtros desplazables en móvil sin barra visual intrusiva */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
