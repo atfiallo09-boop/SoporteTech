@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+    /* Paleta Oficial SOPORTETECH extraída del Logo Fénix-Circuito */
+    --st-navy-deep: #031538;
+    --st-navy-surface: #071F4E;
+    --st-electric-blue: #0047FF;
+    --st-cyan: #00A3E0;
+    --st-phoenix-amber: #FF7A00;
+    --st-phoenix-gold: #FFB800;
+    --st-phoenix-red: #E62419;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #031538;
+    background-color: #F4F7FB;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono-tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Motivo arquitectónico de pistas de circuito inspirado en el logo de SoporteTech */
+.bg-st-navy-circuit {
+  background-color: #031538;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(0, 71, 255, 0.24) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(255, 122, 0, 0.16) 0%, transparent 45%),
+    linear-gradient(to right, rgba(0, 163, 224, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 163, 224, 0.06) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+.bg-st-light-circuit {
+  background-color: #F4F7FB;
+  background-image:
+    radial-gradient(circle at 90% 10%, rgba(0, 71, 255, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(255, 122, 0, 0.05) 0%, transparent 40%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

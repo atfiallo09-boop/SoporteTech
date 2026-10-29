@@ -1,0 +1,6 @@
+{
+  "name": "SoporteTech – Ciberseguridad, Redes, Cómputo y Software en Tapachula",
+  "description": "Soluciones empresariales de ciberseguridad, mantenimiento de redes, venta autorizada de equipo de cómputo y desarrollo de software a la medida en Tapachula y el Soconusco, Chiapas. Tel: 962 707 4426.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
